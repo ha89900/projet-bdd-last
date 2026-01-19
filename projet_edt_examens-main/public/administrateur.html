@@ -1,0 +1,293 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Plateforme Examens – Vue Administrateur</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; background:#f4f4f4; }
+    header { background:#006400; color:white; padding:15px; display:flex; justify-content:space-between; align-items:center; }
+    .profile button { background:#dc3545; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; }
+    .profile button:hover { background:#a71d2a; }
+    .container { display:flex; }
+    aside { width:220px; background:#ddd; padding:10px; }
+    aside ul { list-style:none; padding:0; }
+    aside li { padding:10px; margin:5px 0; background:#006400; color:white; cursor:pointer; border-radius:5px; }
+    aside li:hover { background:#228B22; }
+    main { flex:1; padding:20px; }
+    section { display:none; background:white; padding:20px; border-radius:8px; box-shadow:0 0 5px rgba(0,0,0,0.2); }
+    section.active { display:block; }
+    table { width:100%; border-collapse:collapse; margin-top:15px; }
+    th, td { border:1px solid #ccc; padding:8px; text-align:center; }
+    .actions button { margin:10px; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; }
+    .btn-generate { background:#007bff; color:white; }
+    .btn-detect { background:#ffc107; }
+    .btn-optimize { background:#28a745; color:white; }
+    .btn-export { background:#17a2b8; color:white; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h2>Faculté des Sciences – Session Examens</h2>
+  <div class="profile">
+    Administrateur Examens 
+    <button onclick="logout()">Déconnexion</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- MENU LATERAL -->
+  <aside>
+    <ul>
+      <li onclick="showSection('dashboard')">📊 Tableau de bord</li>
+      <li onclick="showSection('generation')">⚙️ Génération EDT</li>
+      <li onclick="showSection('conflits')">⚠️ Détection des conflits</li>
+      <li onclick="showSection('optimisation')">🔧 Optimisation des ressources</li>
+      <li onclick="showSection('rapports')">📄 Rapports & Export</li>
+    </ul>
+  </aside>
+
+  <!-- CONTENU PRINCIPAL -->
+  <main>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="page-section active">
+      <h3>Vue globale – Administrateur Examens</h3>
+      <p style="color:#555;">
+        Interface opérationnelle pour gérer la génération, la détection et l’optimisation des emplois du temps d’examens.
+      </p>
+      <ul>
+        <li>Nombre d’examens planifiés : <strong>450</strong></li>
+        <li>Conflits détectés : <strong>12</strong></li>
+        <li>Temps moyen de génération : <strong>40 secondes</strong></li>
+      </ul>
+    </section>
+
+    <!-- GENERATION -->
+    <section id="generation" class="page-section">
+      <h3>Génération automatique des emplois du temps</h3>
+      <p>L’administrateur peut lancer la génération automatique des plannings.</p>
+      <div class="actions">
+        <button class="btn-generate" onclick="generateEDT()">⚙️ Générer EDT</button>
+      </div>
+      <p id="genResult"></p>
+    </section>
+
+    <!-- CONFLITS -->
+    <section id="conflits" class="page-section">
+      <h3>Détection des conflits</h3>
+      <p>Analyse automatique des chevauchements et surcharges.</p>
+      <div class="actions">
+        <button class="btn-detect" onclick="detectConflicts()">⚠️ Détecter les conflits</button>
+      </div>
+      <table>
+        <tr><th>Type</th><th>Département</th><th>Impact</th><th>Statut</th></tr>
+        <tr><td>Chevauchement</td><td>Informatique</td><td>42 étudiants</td><td>À corriger</td></tr>
+        <tr><td>Salle surchargée</td><td>Mathématiques</td><td>18 étudiants</td><td>Acceptable</td></tr>
+      </table>
+      <p id="conflictResult"></p>
+    </section>
+
+    <!-- OPTIMISATION -->
+    <section id="optimisation" class="page-section">
+      <h3>Optimisation des ressources</h3>
+      <p>Répartition équilibrée des enseignants et respect des capacités des salles.</p>
+      <div class="actions">
+        <button class="btn-optimize" onclick="optimizeResources()">🔧 Optimiser</button>
+      </div>
+      <p id="optResult"></p>
+    </section>
+
+    <!-- RAPPORTS -->
+    <section id="rapports" class="page-section">
+      <h3>Rapports et exportations</h3>
+      <p>L’administrateur peut exporter les données pour analyse externe.</p>
+      <div class="actions">
+        <button class="btn-export" onclick="exportPDF()">📄 Export PDF</button>
+        <button class="btn-export" onclick="exportExcel()">📊 Export Excel</button>
+      </div>
+      <p id="exportResult"></p>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+  }
+  function logout() {
+    if (confirm("Voulez-vous vraiment vous déconnecter ?")) {
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
+  }
+  function generateEDT() {
+    document.getElementById("genResult").innerHTML = "✅ Emplois du temps générés automatiquement en 40 secondes.";
+  }
+  function detectConflicts() {
+    document.getElementById("conflictResult").innerHTML = "⚠️ 12 conflits détectés. Rapport détaillé disponible.";
+  }
+  function optimizeResources() {
+    document.getElementById("optResult").innerHTML = "🔧 Optimisation effectuée : répartition équilibrée des enseignants et respect des capacités.";
+  }
+  function exportPDF() {
+    document.getElementById("exportResult").innerHTML = "📄 Rapport exporté en PDF avec succès.";
+  }
+  function exportExcel() {
+    document.getElementById("exportResult").innerHTML = "📊 Rapport exporté en Excel avec succès.";
+  }
+</script>
+
+</body>
+</html>
+=======
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Plateforme Examens – Vue Administrateur</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; background:#f4f4f4; }
+    header { background:#006400; color:white; padding:15px; display:flex; justify-content:space-between; align-items:center; }
+    .profile button { background:#dc3545; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; }
+    .profile button:hover { background:#a71d2a; }
+    .container { display:flex; }
+    aside { width:220px; background:#ddd; padding:10px; }
+    aside ul { list-style:none; padding:0; }
+    aside li { padding:10px; margin:5px 0; background:#006400; color:white; cursor:pointer; border-radius:5px; }
+    aside li:hover { background:#228B22; }
+    main { flex:1; padding:20px; }
+    section { display:none; background:white; padding:20px; border-radius:8px; box-shadow:0 0 5px rgba(0,0,0,0.2); }
+    section.active { display:block; }
+    table { width:100%; border-collapse:collapse; margin-top:15px; }
+    th, td { border:1px solid #ccc; padding:8px; text-align:center; }
+    .actions button { margin:10px; padding:10px 20px; border:none; border-radius:5px; cursor:pointer; }
+    .btn-generate { background:#007bff; color:white; }
+    .btn-detect { background:#ffc107; }
+    .btn-optimize { background:#28a745; color:white; }
+    .btn-export { background:#17a2b8; color:white; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h2>Faculté des Sciences – Session Examens</h2>
+  <div class="profile">
+    Administrateur Examens 
+    <button onclick="logout()">Déconnexion</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- MENU LATERAL -->
+  <aside>
+    <ul>
+      <li onclick="showSection('dashboard')">📊 Tableau de bord</li>
+      <li onclick="showSection('generation')">⚙️ Génération EDT</li>
+      <li onclick="showSection('conflits')">⚠️ Détection des conflits</li>
+      <li onclick="showSection('optimisation')">🔧 Optimisation des ressources</li>
+      <li onclick="showSection('rapports')">📄 Rapports & Export</li>
+    </ul>
+  </aside>
+
+  <!-- CONTENU PRINCIPAL -->
+  <main>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="page-section active">
+      <h3>Vue globale – Administrateur Examens</h3>
+      <p style="color:#555;">
+        Interface opérationnelle pour gérer la génération, la détection et l’optimisation des emplois du temps d’examens.
+      </p>
+      <ul>
+        <li>Nombre d’examens planifiés : <strong>450</strong></li>
+        <li>Conflits détectés : <strong>12</strong></li>
+        <li>Temps moyen de génération : <strong>40 secondes</strong></li>
+      </ul>
+    </section>
+
+    <!-- GENERATION -->
+    <section id="generation" class="page-section">
+      <h3>Génération automatique des emplois du temps</h3>
+      <p>L’administrateur peut lancer la génération automatique des plannings.</p>
+      <div class="actions">
+        <button class="btn-generate" onclick="generateEDT()">⚙️ Générer EDT</button>
+      </div>
+      <p id="genResult"></p>
+    </section>
+
+    <!-- CONFLITS -->
+    <section id="conflits" class="page-section">
+      <h3>Détection des conflits</h3>
+      <p>Analyse automatique des chevauchements et surcharges.</p>
+      <div class="actions">
+        <button class="btn-detect" onclick="detectConflicts()">⚠️ Détecter les conflits</button>
+      </div>
+      <table>
+        <tr><th>Type</th><th>Département</th><th>Impact</th><th>Statut</th></tr>
+        <tr><td>Chevauchement</td><td>Informatique</td><td>42 étudiants</td><td>À corriger</td></tr>
+        <tr><td>Salle surchargée</td><td>Mathématiques</td><td>18 étudiants</td><td>Acceptable</td></tr>
+      </table>
+      <p id="conflictResult"></p>
+    </section>
+
+    <!-- OPTIMISATION -->
+    <section id="optimisation" class="page-section">
+      <h3>Optimisation des ressources</h3>
+      <p>Répartition équilibrée des enseignants et respect des capacités des salles.</p>
+      <div class="actions">
+        <button class="btn-optimize" onclick="optimizeResources()">🔧 Optimiser</button>
+      </div>
+      <p id="optResult"></p>
+    </section>
+
+    <!-- RAPPORTS -->
+    <section id="rapports" class="page-section">
+      <h3>Rapports et exportations</h3>
+      <p>L’administrateur peut exporter les données pour analyse externe.</p>
+      <div class="actions">
+        <button class="btn-export" onclick="exportPDF()">📄 Export PDF</button>
+        <button class="btn-export" onclick="exportExcel()">📊 Export Excel</button>
+      </div>
+      <p id="exportResult"></p>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll("section").forEach(sec => sec.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+  }
+  function logout() {
+    if (confirm("Voulez-vous vraiment vous déconnecter ?")) {
+      localStorage.clear();
+      window.location.href = "login.html";
+    }
+  }
+  function generateEDT() {
+    document.getElementById("genResult").innerHTML = "✅ Emplois du temps générés automatiquement en 40 secondes.";
+  }
+  function detectConflicts() {
+    document.getElementById("conflictResult").innerHTML = "⚠️ 12 conflits détectés. Rapport détaillé disponible.";
+  }
+  function optimizeResources() {
+    document.getElementById("optResult").innerHTML = "🔧 Optimisation effectuée : répartition équilibrée des enseignants et respect des capacités.";
+  }
+  function exportPDF() {
+    document.getElementById("exportResult").innerHTML = "📄 Rapport exporté en PDF avec succès.";
+  }
+  function exportExcel() {
+    document.getElementById("exportResult").innerHTML = "📊 Rapport exporté en Excel avec succès.";
+  }
+</script>
+
+</body>
+</html>
+>>>>>>> master
